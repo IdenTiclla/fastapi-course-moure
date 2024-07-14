@@ -50,6 +50,14 @@ async def update_user(user: User):
         
     return {"error": "user not found."}
 
+@app.delete('/users/{id}')
+async def delete_user(id: int):
+    for saved_user in users_list:
+        if saved_user.id == id:
+            users_list.remove(saved_user)
+            return {"msg": "user deleted successfully."}
+    return {"msg": "user wasn't found."}
+
 def search_user(id:int):
     users = filter(lambda x: x.id == id, users_list)
     try:
