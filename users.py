@@ -23,15 +23,22 @@ async def usersjson():
 # path parameters
 @app.get('/user/{id}')
 async def get_specific_user(id: int):
-    user = filter(lambda x: x.id == id, users_list)
-    try:
-        return list(user)[0]
-    except:
-        return {"error": "Can't find that user", "status": 404}
+    return search_user(id)
 
 # query parameters
 @app.get('/user/')
 async def get_query_user(id: int):
+    return search_user(id)
+    
+@app.post('/users')
+async def create_user(user: User):
+    if type(search_user(user.id)) == User:
+        return {"error": "usuario ya esta registrado."}
+    else:
+        users_list.append(user)
+        return user
+
+def search_user(id:int):
     users = filter(lambda x: x.id == id, users_list)
     try:
         return list(users)[0]
