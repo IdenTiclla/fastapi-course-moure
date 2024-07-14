@@ -37,6 +37,18 @@ async def create_user(user: User):
     else:
         users_list.append(user)
         return user
+    
+@app.put('/users')
+async def update_user(user: User):
+    for saved_user in users_list:
+        if saved_user.id == user.id:
+            saved_user.name = user.name
+            saved_user.surname = user.surname
+            saved_user.url = user.url
+            saved_user.age = user.age
+            return user
+        
+    return {"error": "user not found."}
 
 def search_user(id:int):
     users = filter(lambda x: x.id == id, users_list)
