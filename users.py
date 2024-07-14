@@ -20,6 +20,7 @@ async def usersjson():
     # return [{"name": "illo", "surname": "juan", "url": "http://users.com"}]
     return users_list
 
+# path parameters
 @app.get('/user/{id}')
 async def get_specific_user(id: int):
     user = filter(lambda x: x.id == id, users_list)
@@ -27,3 +28,12 @@ async def get_specific_user(id: int):
         return list(user)[0]
     except:
         return {"error": "Can't find that user", "status": 404}
+
+# query parameters
+@app.get('/user/')
+async def get_query_user(id: int):
+    users = filter(lambda x: x.id == id, users_list)
+    try:
+        return list(users)[0]
+    except:
+        return {"error": "can't find that user", "status": 404}
